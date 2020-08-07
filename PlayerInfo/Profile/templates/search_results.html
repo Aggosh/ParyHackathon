@@ -1,0 +1,9 @@
+<h1>Search Results</h1>
+
+<ul>
+  {% for profile in object_list %}
+    <li>
+      <a href="/nickname/{{ profile.nickname }}/">{{ profile.nickname }}</a>
+    </li>
+  {% endfor %}
+</ul>

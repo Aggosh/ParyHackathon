@@ -1,4 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
+
+import datetime
+
+REVIEW_KARMA_CHOICES = [-1, 0, 1]
 
 
 class Profile(models.Model):
@@ -12,6 +17,8 @@ class Profile(models.Model):
     twitter_url = models.URLField(blank=True)
     telegram_url = models.URLField(blank=True)
 
+    user = models.ForeignKey(User, related_name="User", on_delete=models.CASCADE, blank=True, default=1)
+
     def __str__(self):
         return self.nickname
 
@@ -24,6 +31,13 @@ class Review(models.Model):
     text = models.TextField()
 
     review_karma = models.IntegerField(default=0)
+    review_rating = models.IntegerField(
+        default=0, choices=((-1, "Bad"), (0, "Normal"), (1, "Good"))
+    )
+    created = models.DateTimeField(blank=True, default=datetime.datetime.now)
+
+    class Meta:
+        ordering = ("created",)
 
     def __str__(self):
-        return self.text, self.review_karma
+        return f"{self.text}, {self.review_karma}"
