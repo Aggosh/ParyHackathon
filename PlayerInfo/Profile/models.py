@@ -10,7 +10,9 @@ class Profile(models.Model):
     nickname = models.CharField(max_length=255)
     rating = models.IntegerField(default=10)
     karma = models.IntegerField(default=0)
-    avatar = models.ImageField(upload_to="profile/avatars", default='profile/avatars/None.png')
+    avatar = models.ImageField(
+        upload_to="profile/avatars", default="profile/avatars/None.png"
+    )
 
     steam_url = models.URLField(blank=True, null=True)
     wow_url = models.URLField(blank=True, null=True)
