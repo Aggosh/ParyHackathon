@@ -10,14 +10,17 @@ class Profile(models.Model):
     nickname = models.CharField(max_length=255)
     rating = models.IntegerField(default=10)
     karma = models.IntegerField(default=0)
-    avatar = models.ImageField(upload_to="profile/avatars")
+    avatar = models.ImageField(upload_to="profile/avatars", default='profile/avatars/None.png')
 
-    steam_url = models.URLField(blank=True)
-    wow_url = models.URLField(blank=True)
-    twitter_url = models.URLField(blank=True)
-    telegram_url = models.URLField(blank=True)
+    steam_url = models.URLField(blank=True, null=True)
+    wow_url = models.URLField(blank=True, null=True)
+    telegram_url = models.URLField(blank=True, null=True)
+    twitter = models.CharField(max_length=255, blank=True, null=True)
+    twitch = models.CharField(max_length=255, blank=True, null=True)
 
-    user = models.ForeignKey(User, related_name="User", on_delete=models.CASCADE, blank=True, default=1)
+    user = models.ForeignKey(
+        User, related_name="User", on_delete=models.CASCADE, blank=True, default=1
+    )
 
     def __str__(self):
         return self.nickname

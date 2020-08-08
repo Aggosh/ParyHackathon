@@ -12,13 +12,16 @@ def profile(request, nickname):
 
     # Это плохой код, но другого у меня нет
     if request.user.is_authenticated:
-        if request.method == 'POST':
+        if request.method == "POST":
             review_form = ReviewForm(data=request.POST)
             if review_form.is_valid():
                 new_review = review_form.save(commit=False)
 
                 new_review.profile = user
                 new_review.author = Profile.objects.get(pk=user.id)
+
+                user.rating += new_review.review_rating
+                user.save()
 
                 new_review.save()
                 context.update({"new_review": True})

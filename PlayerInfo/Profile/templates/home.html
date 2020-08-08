@@ -1,5 +1,19 @@
-<h1>HomePage</h1>
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
 
-<form action="{% url 'search_results' %}" method="get">
-  <input name="q" type="text" placeholder="Search...">
-</form>
+{% block content %}
+<section class="clearfix">
+    <div class="container">
+        <div class="row" style="text-align: center">
+            <h1 style="color: #707070; font-size: 108px; font-family: Oswald; margin: 0 auto; margin-top: 200px;">JUST
+                ENTER THE NAME</h1>
+            <form action="{% url 'search_results' %}" class="mt-3" method="get" style="width: 100%">
+                <input name="q" placeholder="   Name" style="font-family: Oswald; font-size: 18px; border-radius: 9px; width: 70%; border-style: none;"
+                       type="text">
+                <input style="font-family: Oswald; margin-left: 10px; font-size: 18px; color: #242121; background-color: #F8C25C; border-radius: 9px; border-style: none;" type="submit"
+                       value="Search">
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
