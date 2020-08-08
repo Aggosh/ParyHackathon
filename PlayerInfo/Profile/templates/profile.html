@@ -1,72 +1,77 @@
-{% load static %}
-<p>
-    Avatar: <img src="/media/{{profile.avatar}}" width="100", height="100"> <br>
-    User: {{profile.nickname}} <br>
-    Rating: {{profile.rating}} <br>
-    Karma: {{profile.karma}} <br>
-    Steam: {{profile.steam_url}} <br>
-    Wow: {{profile.wow_url}} <br>
-    Twitter: @{{profile.twitter}} <br>
-    Telegram: {{profile.telegram_url}} <br>
-    Twitch: {{profile.twitch}} <br>
-    <br>
-    Review
-    <br>
+{% extends 'base.html' %}
+{% block title %}{{profile.nickname}}{% endblock %}
+{% block content %}
+<section class="clearfix pb-5">
+    <div class="container" style="background-color: #1E1C1C; margin-top: 75px; border-radius: 7px;">
+        <div class="row">
+            <div class="col-lg-2 offset-lg-1">
+                <img height="200" src="/media/{{profile.avatar}}" style="border-radius: 7px; margin-top: 80px;"
+                     width="200">
+                <p style="font-family: Oswald; font-size: 14px; color: #FFF; margin-top: 5px;">
+                    {{profile.description}}
+                </p>
+            </div>
 
-    {% if profile.twitch %}
-    <script src= "https://player.twitch.tv/js/embed/v1.js"></script>
-    <div id="<player div ID>"></div>
-    <script type="text/javascript">
-      var options = {
-        width: 600,
-        height: 300,
-        channel: "{{profile.twitch}}",
-        autoplay: false,
-      };
-      var player = new Twitch.Player("<player div ID>", options);
-      player.setVolume(0.5);
-    </script>
+            <div class="col-lg-2 offset-lg-1">
+                <h1 style="font-family: Oswald; font-size: 36px; color: #FFFFFF; margin-top: 80px;">
+                    {{profile.nickname}}
+                </h1>
 
-    {% endif %}
+                {% if profile.steam_url %}
+                <a href="{{profile.steam_url}}" style="font-family: Oswald; width: 100%; color: #FFFFFF; font-size: 12px;">Steam</a>
+                {% endif %}
+                {% if profile.wow_url %}
+                <a href="{{profile.wow_url}}" style="font-family: Oswald; width: 100%; color: #FFFFFF; font-size: 12px;">WoW</a>
+                {% endif %}
+                {% if profile.telegram_url %}
+                <a href="{{profile.telegram_url}}" style="font-family: Oswald; width: 100%; color: #FFFFFF; font-size: 12px;">Telegram</a>
+                {% endif %}
+                {% if profile.twitter %}
+                <p style="font-family: Oswald; width: 100%; color: #FFFFFF; font-size: 12px;">Twitter: @{{profile.twitter}}</p>
+                {% endif %}
 
-    {% if profile.twitter %}
+            </div>
 
-    <div style="width: 300px; height: 300px; overflow-y: scroll">
-    <a class="twitter-timeline" href="https://twitter.com/{{profile.twitter}}">Tweets by DendiBoss</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
+            <div class="col-lg-1 offset-lg-1" style="text-align: center">
+                <h1 style="font-family: Oswald; font-size: 36px; color: #5CF876; margin-top: 80px;">
+                    {{profile.rating}}</h1>
+                {% with reviews.count as total_reviews %}
+                <h2 style="font-family: Oswald; font-size: 14px; color: #FFF;">
+                    Review{{ total_reviews|pluralize }}({{ total_reviews }})
+                </h2>
+                {% endwith %}
+                <h1 style="font-family: Oswald; font-size: 12px; color: #F8C25C; margin-top: 10px; border: solid #F8C25C; border-radius: 8px; padding: 5px;">
+                    Give Feedback</h1>
+            </div>
+            <div class="col-lg-3 offset-lg-1" style="margin-top: 75px">
+                {% if profile.twitter %}
 
-    {% endif %}
+                <div style="width: 100%; height: 360px; overflow-y: scroll">
+                    <a class="twitter-timeline" href="https://twitter.com/{{profile.twitter}}">Tweets by DendiBoss</a>
+                    <script async charset="utf-8" src="https://platform.twitter.com/widgets.js"></script>
+                </div>
 
-    {% with reviews.count as total_reviews %}
-        <h2>
-            {{ total_reviews }} review{{ total_reviews|pluralize }}
-        </h2>
-    {% endwith %}
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="row-lg-10 offset-lg-1">
+                    {% if profile.twitch %}
+                    <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+                    <div id="<player div ID>" style="border-radius: 8px; margin-top: 20px;"></div>
+                    <script type="text/javascript">
+                        var options = {
+                            width: 1000,
+                            height: 560,
+                            channel: "{{profile.twitch}}",
+                            autoplay: false,
+                        };
+                        var player = new Twitch.Player("<player div ID>", options);
+                        player.setVolume(0.5);
+                    </script>
 
-    {% if user.is_authenticated %}
-        {% if new_review %}
-            <h2>Your review has been added.</h2>
-        {% else %}
-            <h2>Add a new review</h2>
-            <form action="." method="post">
-                {{ review_form.as_p }}
-                {% csrf_token %}
-                <p><input type="submit" value="Add review"></p>
-            </form>
-        {% endif %}
-    {% else %}
-    <h2>To add review you need to login</h2>
-    {% endif %}
-
-    {% for review in reviews %}
-        Author: {{review.author}} <br>
-        Avatar: <img src="/media/{{review.author.avatar}}" width="100", height="100"> <br>
-        Profile: {{review.profile}} <br>
-        Text: {{review.text}} <br>
-        Review karma: {{review.review_karma}} <br>
-        Review rating: {{review.review_rating}} <br>
-    <br>
-    {% empty %}
-    <p>There are no reviews yet.</p>
-    {% endfor %}
-</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+</section>
+{% endblock %}

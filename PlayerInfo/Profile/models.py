@@ -14,6 +14,8 @@ class Profile(models.Model):
         upload_to="profile/avatars", default="profile/avatars/None.png"
     )
 
+    description = models.TextField(blank=True, null=True)
+
     steam_url = models.URLField(blank=True, null=True)
     wow_url = models.URLField(blank=True, null=True)
     telegram_url = models.URLField(blank=True, null=True)

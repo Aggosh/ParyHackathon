@@ -19,7 +19,7 @@ class SearchResultsView(ListView):
             Q(nickname__icontains=query)
             | Q(steam_url__icontains=query)
             | Q(wow_url__icontains=query)
-            | Q(twitter_url__icontains=query)
+            | Q(twitter__icontains=query)
             | Q(telegram_url__icontains=query)
         )
         if len(object_list) == 0:
