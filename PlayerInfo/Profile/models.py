@@ -27,6 +27,12 @@ class Profile(models.Model):
     )
 
     steam_lvl = models.IntegerField(default=0, blank=True)
+    dota_mmr = models.IntegerField(default=0, blank=True)
+    dota_average_kda = models.CharField(max_length=255, blank=True, null=True)
+    dota_best_hero = models.CharField(max_length=255, blank=True, null=True)
+    dota_best_hero_avatar = models.ImageField(
+        upload_to="dota/heroes", default="dota/heroes/None.png"
+    )
 
     def __str__(self):
         return self.nickname
