@@ -26,6 +26,8 @@ class Profile(models.Model):
         User, related_name="User", on_delete=models.CASCADE, blank=True, default=1
     )
 
+    steam_lvl = models.IntegerField(default=0, blank=True)
+
     def __str__(self):
         return self.nickname
 
